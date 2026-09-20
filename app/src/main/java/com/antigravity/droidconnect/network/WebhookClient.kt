@@ -34,21 +34,36 @@ object WebhookClient {
         encryptionKey: String = ""
     ): Result<Unit> = withContext(Dispatchers.IO) {
         try {
-            val url = endpointUrl.trim()
+            var url = endpointUrl.trim()
             if (url.isBlank()) {
                 return@withContext Result.failure(IllegalArgumentException("Webhook URL is empty"))
             }
 
+            if (!url.startsWith("http://", ignoreCase = true) && !url.startsWith("https://", ignoreCase = true)) {
+                url = "https://$url"
+            }
+
             val isBark = url.contains("api.day.app", ignoreCase = true)
-            val jsonBody = if (isBark) {
-                buildBarkJson(payload, encryptionKey)
+            val (targetUrl, jsonBody) = if (isBark) {
+                Pair(url, buildBarkJson(payload, encryptionKey))
             } else {
-                buildNtfyJson(payload, encryptionKey)
+                try {
+                    val uri = java.net.URI(url)
+                    val path = uri.path?.trim('/') ?: ""
+                    if (path.isNotEmpty() && !path.contains("/")) {
+                        val serverRoot = "${uri.scheme}://${uri.authority}"
+                        Pair(serverRoot, buildNtfyJson(payload, encryptionKey, topic = path))
+                    } else {
+                        Pair(url, buildNtfyJson(payload, encryptionKey, topic = ""))
+                    }
+                } catch (e: Exception) {
+                    Pair(url, buildNtfyJson(payload, encryptionKey, topic = ""))
+                }
             }
 
             val requestBody = jsonBody.toString().toRequestBody(JSON_MEDIA_TYPE)
             val requestBuilder = Request.Builder()
-                .url(url)
+                .url(targetUrl)
                 .post(requestBody)
 
             if (encryptionKey.isNotBlank()) {
@@ -76,7 +91,11 @@ object WebhookClient {
     /**
      * Formats JSON payload adhering to ntfy.sh standard.
      */
-    private fun buildNtfyJson(payload: NotificationPayload, encryptionKey: String): JSONObject {
+    private fun buildNtfyJson(
+        payload: NotificationPayload,
+        encryptionKey: String,
+        topic: String = ""
+    ): JSONObject {
         var displayTitle = "[${payload.appName}] ${payload.title}".trim()
         var displayMessage = payload.message
 
@@ -86,6 +105,9 @@ object WebhookClient {
         }
 
         val json = JSONObject()
+        if (topic.isNotBlank()) {
+            json.put("topic", topic)
+        }
         json.put("title", displayTitle)
         json.put("message", displayMessage)
         json.put("priority", payload.priority)

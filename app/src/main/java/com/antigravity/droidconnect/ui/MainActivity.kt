@@ -56,12 +56,16 @@ class MainActivity : AppCompatActivity() {
 
         // Save button
         binding.btnSaveConfig.setOnClickListener {
-            val url = binding.etWebhookUrl.text?.toString()?.trim().orEmpty()
+            var url = binding.etWebhookUrl.text?.toString()?.trim().orEmpty()
             val key = binding.etEncryptionKey.text?.toString()?.trim().orEmpty()
 
             if (url.isBlank()) {
                 binding.layoutWebhookUrl.error = "Webhook URL cannot be empty"
                 return@setOnClickListener
+            }
+            if (!url.startsWith("http://", ignoreCase = true) && !url.startsWith("https://", ignoreCase = true)) {
+                url = "https://$url"
+                binding.etWebhookUrl.setText(url)
             }
             binding.layoutWebhookUrl.error = null
 

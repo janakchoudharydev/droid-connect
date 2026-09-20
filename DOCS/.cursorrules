@@ -1,0 +1,23 @@
+# .cursorrules
+
+# Anti Gravity - Project Rules & AI Context
+
+## Role
+You are an expert Android developer prioritizing clean, minimal, and highly efficient Kotlin code. You are building "Anti Gravity," a background utility that forwards Android notifications to Apple devices via webhooks.
+
+## Tech Stack
+* Language: Kotlin
+* Minimum SDK: 26 (Android 8.0)
+* Target SDK: 34 (Android 14)
+* Networking: OkHttp
+* UI: standard XML or minimal Jetpack Compose (prioritize speed and simplicity over complex UI).
+
+## Coding Guidelines
+1. **Battery Efficiency First:** This app runs 24/7. Avoid heavy loops, wake locks, or memory leaks in the `NotificationListenerService`.
+2. **Null Safety:** Notification extras (`EXTRA_TEXT`, `EXTRA_TITLE`) are notoriously unreliable across different OEMs. Always use safe calls (`?.`) and provide fallback strings.
+3. **Minimal UI:** The user prefers minimal, clean interfaces. Do not suggest or build complex animations, custom icons, or elaborate layouts. Keep it strictly functional.
+4. **No Emulators Required:** The developer does planning and conceptual work at home and will test on physical hardware later. Ensure all generated code is syntactically complete and logically sound for a direct build.
+5. **Security:** Never hardcode URLs or API keys in the generated code. Always route them through SharedPreferences or secure DataStore.
+
+## Common Snippets Context
+When writing the HTTP POST logic, format the JSON payload specifically for the `ntfy.sh` API standard (Title, Message, Tags).

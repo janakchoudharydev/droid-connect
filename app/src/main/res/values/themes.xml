@@ -1,0 +1,8 @@
+<resources>
+    <style name="Theme.AntiGravity" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/secondary</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="android:statusBarColor">?android:attr/colorBackground</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>

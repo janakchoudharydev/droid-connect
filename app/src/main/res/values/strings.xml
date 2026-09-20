@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Anti Gravity</string>
+    <string name="service_name">Anti Gravity Notification Service</string>
+    <string name="title_app_filters">App Filtering</string>
+
+    <!-- Main Screen -->
+    <string name="status_header">Sync Service Status</string>
+    <string name="forwarding_active">Notification Forwarding Active</string>
+    <string name="forwarding_paused">Notification Forwarding Paused</string>
+    <string name="permission_granted">Notification Access Granted</string>
+    <string name="permission_missing">Notification Access Required</string>
+    <string name="grant_permission_btn">Grant Permission</string>
+
+    <string name="battery_header">Battery Optimization</string>
+    <string name="battery_ignored">Unrestricted background execution active</string>
+    <string name="battery_restricted">Battery optimization may kill service</string>
+    <string name="disable_battery_opt_btn">Disable Battery Optimization</string>
+
+    <string name="config_header">Webhook Configuration</string>
+    <string name="webhook_url_label">Webhook Endpoint (ntfy / Bark)</string>
+    <string name="webhook_url_hint">https://ntfy.sh/your-private-topic</string>
+    <string name="encryption_key_label">AES-256 Secret Key (Optional)</string>
+    <string name="encryption_key_hint">Leave blank for unencrypted</string>
+    <string name="save_config_btn">Save Configuration</string>
+    <string name="send_test_btn">Send Test Push</string>
+    <string name="manage_apps_btn">Configure App Filters</string>
+
+    <string name="config_saved">Configuration saved successfully</string>
+    <string name="test_sent_success">Test notification dispatched!</string>
+    <string name="test_sent_failed">Failed to send test notification: %1$s</string>
+
+    <!-- App Filter Screen -->
+    <string name="search_apps_hint">Search installed apps…</string>
+    <string name="filter_mode_blacklist">Filter Mode: Block selected apps (Blacklist)</string>
+    <string name="filter_mode_whitelist">Filter Mode: Allow ONLY selected apps (Whitelist)</string>
+</resources>

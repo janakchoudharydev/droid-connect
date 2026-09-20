@@ -9,7 +9,8 @@ data class NotificationPayload(
     val message: String,
     val postTime: Long = System.currentTimeMillis(),
     val priority: Int = 3,
-    val tags: List<String> = emptyList()
+    val tags: List<String> = emptyList(),
+    val iconUrl: String? = null
 )
 
 data class AppInfoItem(

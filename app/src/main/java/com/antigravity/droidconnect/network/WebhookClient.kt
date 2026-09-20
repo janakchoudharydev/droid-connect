@@ -112,9 +112,17 @@ object WebhookClient {
         json.put("message", displayMessage)
         json.put("priority", payload.priority)
 
+        // Attach custom app icon URL if available
+        if (!payload.iconUrl.isNullOrBlank()) {
+            json.put("icon", payload.iconUrl)
+        }
+
         val tagsArray = JSONArray()
-        tagsArray.put("bell")
-        payload.tags.forEach { tagsArray.put(it) }
+        if (payload.tags.isEmpty()) {
+            tagsArray.put("bell")
+        } else {
+            payload.tags.forEach { tagsArray.put(it) }
+        }
         json.put("tags", tagsArray)
 
         return json
@@ -136,6 +144,9 @@ object WebhookClient {
         json.put("title", displayTitle)
         json.put("body", displayBody)
         json.put("group", payload.appName)
+        if (!payload.iconUrl.isNullOrBlank()) {
+            json.put("icon", payload.iconUrl)
+        }
         return json
     }
 }
